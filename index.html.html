@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 태국 치앙마이 단기선교 일지</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 10px;
+                margin: 5px;
+            }
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateX(-50px) translateY(-50px) rotate(0deg); }
+            100% { transform: translateX(-50px) translateY(-50px) rotate(360deg); }
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .mission-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        .info-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .info-card p {
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .diary-section {
+            padding: 30px;
+        }
+        
+        .day-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .day-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background: #e9ecef;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-appearance: none;
+        }
+        
+        .day-btn:hover {
+            background: #4ecdc4;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .day-btn.active {
+            background: #ff6b6b;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .diary-form {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .diary-form.active {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            -webkit-appearance: none;
+            background: white;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .photo-section {
+            border: 2px dashed #4ecdc4;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background: #f8f9fa;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .photo-section:hover {
+            background: #e9ecef;
+            border-color: #ff6b6b;
+        }
+        
+        .photo-section input[type="file"] {
+            display: none;
+        }
+        
+        .photo-upload-btn {
+            background: #4ecdc4;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .photo-upload-btn:hover {
+            background: #45b7aa;
+            transform: translateY(-2px);
+        }
+        
+        .photo-preview {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        
+        .photo-preview img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #4ecdc4;
+        }
+        
+        .save-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            width: 100%;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-appearance: none;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .schedule-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .schedule-info h4 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+        
+        .schedule-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .schedule-info li {
+            color: #155724;
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .schedule-info li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+                line-height: 1.2;
+                margin-bottom: 8px;
+            }
+            
+            .header p {
+                font-size: 1em;
+                line-height: 1.3;
+            }
+            
+            .mission-info {
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            .info-card {
+                padding: 15px;
+            }
+            
+            .info-card h3 {
+                font-size: 1em;
+                margin-bottom: 10px;
+            }
+            
+            .info-card p {
+                font-size: 0.9em;
+                line-height: 1.4;
+            }
+            
+            .diary-section {
+                padding: 20px;
+            }
+            
+            .day-selector {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .day-btn {
+                width: 100%;
+                max-width: 320px;
+                padding: 15px 20px;
+                font-size: 0.9em;
+                text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .diary-form {
+                padding: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .form-group label {
+                font-size: 0.95em;
+                margin-bottom: 6px;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 12px;
+                font-size: 16px;
+                border-radius: 8px;
+                -webkit-appearance: none;
+            }
+            
+            .form-group textarea {
+                min-height: 100px;
+                resize: vertical;
+            }
+            
+            .schedule-info {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+            
+            .schedule-info h4 {
+                font-size: 0.95em;
+                margin-bottom: 8px;
+            }
+            
+            .schedule-info li {
+                font-size: 0.85em;
+                line-height: 1.4;
+                margin-bottom: 4px;
+                padding-left: 15px;
+            }
+            
+            .photo-section {
+                padding: 25px 15px;
+                margin: 15px 0;
+            }
+            
+            .photo-upload-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .photo-preview {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 8px;
+                margin-top: 12px;
+            }
+            
+            .photo-preview img {
+                height: 80px;
+            }
+            
+            .save-btn {
+                padding: 15px 25px;
+                font-size: 16px;
+                margin-top: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .header p {
+                font-size: 0.9em;
+            }
+            
+            .day-btn {
+                padding: 12px 15px;
+                font-size: 0.85em;
+                max-width: 280px;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 10px;
+                font-size: 16px;
+            }
+            
+            .form-group label {
+                font-size: 0.9em;
+            }
+            
+            .schedule-info li {
+                font-size: 0.8em;
+            }
+            
+            .photo-upload-btn {
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+            
+            .save-btn {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>2025 태국 치앙마이 단기선교 일지</h1>
+            <p>하나님의 사랑을 전하는 귀한 발걸음을 기록하는 곳</p>
+        </div>
+        
+        <div class="mission-info">
+            <div class="info-card">
+                <h3>📅 선교 기간</h3>
+                <p>2025년 8월 17일(일) ~ 8월 23일(토)<br>5박 7일</p>
+            </div>
+            <div class="info-card">
+                <h3>📍 선교 지역</h3>
+                <p>태국 치앙마이<br>치앙라이 일대</p>
+            </div>
+            <div class="info-card">
+                <h3>👥 참가 인원</h3>
+                <p>총 21명<br>(장년 14명, 청년 5명, 유소년 2명)</p>
+            </div>
+            <div class="info-card">
+                <h3>🏛️ 사역 교회</h3>
+                <p>후아이남린 교회, 메이칸짠 제일교회<br>남푸행치윗교회, 싸이판치윗교회</p>
+            </div>
+        </div>
+        
+        <div class="diary-section">
+            <div class="day-selector">
+                <button class="day-btn active" onclick="showDay(1); return false;">8/17 (일) - 태국 입국</button>
+                <button class="day-btn" onclick="showDay(2); return false;">8/18 (월) - 후아이남린 교회</button>
+                <button class="day-btn" onclick="showDay(3); return false;">8/19 (화) - 남푸행치윗교회</button>
+                <button class="day-btn" onclick="showDay(4); return false;">8/20 (수) - 학교 채플</button>
+                <button class="day-btn" onclick="showDay(5); return false;">8/21 (목) - 치앙라이</button>
+                <button class="day-btn" onclick="showDay(6); return false;">8/22 (금) - 치앙마이</button>
+                <button class="day-btn" onclick="showDay(7); return false;">8/23 (토) - 한국 귀국</button>
+            </div>
+            
+            <!-- Day 1 -->
+            <div id="day1" class="diary-form active">
+                <div class="schedule-info">
+                    <h4>📋 8월 17일 주요 일정</h4>
+                    <ul>
+                        <li>한국 출발 (18:30-22:40)</li>
+                        <li>태국 치앙마이 도착</li>
+                        <li>숙소 체크인 (Donchan Grand Hotel)</li>
+                    </ul>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📅 날짜</label>
+                        <input type="date" value="2025-08-17" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>📍 장소</label>
+                        <input type="text" placeholder="예: 치앙마이 공항, 호텔">
+                    </div>
+                    <div class="form-group">
+                        <label>🌤️ 날씨</label>
+                        <select>
+                            <option value="">날씨 선택</option>
+                            <option value="맑음">☀️ 맑음</option>
+                            <option value="구름많음">⛅ 구름많음</option>
+                            <option value="흐림">☁️ 흐림</option>
+                            <option value="비">🌧️ 비</option>
+                            <option value="소나기">⛈️ 소나기</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>✈️ 오늘의 사역 내용</label>
+                    <textarea placeholder="- 참여한 프로그램 (예: 공항 도착, 팀 미팅)&#10;- 맡은 역할 (예: 짐 정리, 일정 확인)&#10;- 특별한 에피소드 (예: 비행기에서 만난 사람, 첫 태국 인상)"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>💝 은혜 나눔 / 느낀 점</label>
+                    <textarea placeholder="- 하나님이 주신 마음&#10;- 감사한 일, 감동받은 순간&#10;- 선교지에 대한 첫 인상&#10;- 개인의 신앙 성장 포인트"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>🙏 감사 기도</label>
+                    <textarea placeholder="- 오늘 하루 주신 은혜에 대한 감사&#10;- 함께한 사람들과 경험에 대한 감사&#10;- 하나님의 인도하심에 대한 감사&#10;- 내일을 위한 감사의 기도"></textarea>
+                </div>
+                
+                <div class="photo-section">
+                    <input type="file" id="photo1" accept="image/*" multiple onchange="handleFileChange('photo1')">
+                    <button class="photo-upload-btn" onclick="handlePhotoUpload('photo1')" type="button">
+                        📷 사진 업로드
+                    </button>
+                    <div id="photo1-preview" class="photo-preview"></div>
+                </div>
+                
+                <button class="save-btn" onclick="saveDiary(1)">💾 일지 저장</button>
+            </div>
+            
+            <!-- Day 2 -->
+            <div id="day2" class="diary-form">
+                <div class="schedule-info">
+                    <h4>📋 8월 18일 주요 일정</h4>
+                    <ul>
+                        <li>후아이남린 교회 방문</li>
+                        <li>점심 식사 대접 (100명)</li>
+                        <li>축호 전도 (어른 40-50명)</li>
+                        <li>저녁 성경학교 (아이들 70명)</li>
+                        <li>저녁 집회 (찬양 6:30, 집회 7:00-8:30)</li>
+                    </ul>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📅 날짜</label>
+                        <input type="date" value="2025-08-18" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>📍 장소</label>
+                        <input type="text" value="후아이남린 교회" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>🌤️ 날씨</label>
+                        <select>
+                            <option value="">날씨 선택</option>
+                            <option value="맑음">☀️ 맑음</option>
+                            <option value="구름많음">⛅ 구름많음</option>
+                            <option value="흐림">☁️ 흐림</option>
+                            <option value="비">🌧️ 비</option>
+                            <option value="소나기">⛈️ 소나기</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>⛪ 오늘의 사역 내용</label>
+                    <textarea placeholder="- 참여한 프로그램 (예: 점심 식사 준비, 축호 전도, 성경학교, 저녁 집회)&#10;- 맡은 역할 (예: 찬양 인도, 음식 준비, 아이들과 놀이)&#10;- 라후셀레족 마을 사람들과의 만남&#10;- 특별한 에피소드"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>💝 은혜 나눔 / 느낀 점</label>
+                    <textarea placeholder="- 현지 사람들과의 교제에서 느낀 점&#10;- 언어 장벽을 넘어선 사랑의 경험&#10;- 아이들과 함께한 소중한 시간&#10;- 하나님의 사랑을 전하며 받은 은혜"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>🙏 감사 기도</label>
+                    <textarea placeholder="- 후아이남린 교회 성도들과의 만남에 감사&#10;- 라후셀레족 마을에서의 따뜻한 환대에 감사&#10;- 아이들과 함께한 소중한 시간에 감사&#10;- 오늘 하루 안전하게 지켜주심에 감사"></textarea>
+                </div>
+                
+                <div class="photo-section">
+                    <input type="file" id="photo2" accept="image/*" multiple onchange="handleFileChange('photo2')">
+                    <button class="photo-upload-btn" onclick="handlePhotoUpload('photo2')" type="button">
+                        📷 사진 업로드
+                    </button>
+                    <div id="photo2-preview" class="photo-preview"></div>
+                </div>
+                
+                <button class="save-btn" onclick="saveDiary(2)">💾 일지 저장</button>
+            </div>
+            
+            <!-- Day 3 -->
+            <div id="day3" class="diary-form">
+                <div class="schedule-info">
+                    <h4>📋 8월 19일 주요 일정</h4>
+                    <ul>
+                        <li>남푸행치윗교회 방문</li>
+                        <li>점심 식사 대접 (150명, 고아원 어린이 20명 포함)</li>
+                        <li>싸이판치윗교회 방문</li>
+                        <li>저녁 집회 (찬양 6:30, 집회 7:00-8:30)</li>
+                    </ul>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📅 날짜</label>
+                        <input type="date" value="2025-08-19" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>📍 장소</label>
+                        <input type="text" value="남푸행치윗교회, 싸이판치윗교회" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>🌤️ 날씨</label>
+                        <select>
+                            <option value="">날씨 선택</option>
+                            <option value="맑음">☀️ 맑음</option>
+                            <option value="구름많음">⛅ 구름많음</option>
+                            <option value="흐림">☁️ 흐림</option>
+                            <option value="비">🌧️ 비</option>
+                            <option value="소나기">⛈️ 소나기</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>⛪ 오늘의 사역 내용</label>
+                    <textarea placeholder="- 두 교회 방문 사역&#10;- 고아원 어린이들과의 만남&#10;- 카렌족 마을 사람들과의 교제&#10;- 맡은 역할과 특별한 경험"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>💝 은혜 나눔 / 느낀 점</label>
+                    <textarea placeholder="- 고아원 어린이들을 보며 느낀 마음&#10;- 카렌족 문화와 만남에서 받은 은혜&#10;- 나타칸 목사님과의 교제&#10;- 두 교회의 다른 분위기와 특색"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>🙏 감사 기도</label>
+                    <textarea placeholder="- 고아원 어린이들과의 만남에 감사&#10;- 카렌족 마을의 따뜻한 환대에 감사&#10;- 두 교회에서의 풍성한 교제에 감사&#10;- 나타칸 목사님의 섬김에 감사"></textarea>
+                </div>
+                
+                <div class="photo-section">
+                    <input type="file" id="photo3" accept="image/*,video/*" multiple capture="environment" onchange="handleFileChange('photo3')">
+                    <button class="photo-upload-btn" onclick="handlePhotoUpload('photo3')" type="button">
+                        📷 사진 업로드
+                    </button>
+                    <div id="photo3-preview" class="photo-preview"></div>
+                </div>
+                
+                <button class="save-btn" onclick="saveDiary(3)">💾 일지 저장</button>
+            </div>
+            
+            <!-- Day 4 -->
+            <div id="day4" class="diary-form">
+                <div class="schedule-info">
+                    <h4>📋 8월 20일 주요 일정</h4>
+                    <ul>
+                        <li>학교 채플 (9:00-11:30, 학생 170명)</li>
+                        <li>메이칸짠 제일교회 방문</li>
+                        <li>특별 기도시간 & 메시지 전달</li>
+                        <li>박원길 선교사님 강의 (7:00-8:00)</li>
+                    </ul>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📅 날짜</label>
+                        <input type="date" value="2025-08-20" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>📍 장소</label>
+                        <input type="text" value="학교, 메이칸짠 제일교회" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>🌤️ 날씨</label>
+                        <select>
+                            <option value="">날씨 선택</option>
+                            <option value="맑음">☀️ 맑음</option>
+                            <option value="구름많음">⛅ 구름많음</option>
+                            <option value="흐림">☁️ 흐림</option>
+                            <option value="비">🌧️ 비</option>
+                            <option value="소나기">⛈️ 소나기</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>🏫 오늘의 사역 내용</label>
+                    <textarea placeholder="- 학교 채플 (학생 170명 대상)&#10;- 미니 운동회 및 공연&#10;- 메이칸짠 제일교회 사역&#10;- 박원길 선교사님 강의 참석&#10;- 교장 선생님께 선물 전달"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>💝 은혜 나눔 / 느낀 점</label>
+                    <textarea placeholder="- 학교 채플에서 아이들과 만남&#10;- 교육 사역의 중요성 깨달음&#10;- 선교사님의 귀한 말씀&#10;- 현지 교육 현실과 필요에 대한 이해"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>🙏 감사 기도</label>
+                    <textarea placeholder="- 학교 학생들과의 만남에 감사&#10;- 교육을 통한 복음 전파 기회에 감사&#10;- 박원길 선교사님의 귀한 말씀에 감사&#10;- 메이칸짠 제일교회에서의 은혜에 감사"></textarea>
+                </div>
+                
+                <div class="photo-section">
+                    <input type="file" id="photo4" accept="image/*,video/*" multiple capture="environment" onchange="handleFileChange('photo4')">
+                    <button class="photo-upload-btn" onclick="handlePhotoUpload('photo4')" type="button">
+                        📷 사진 업로드
+                    </button>
+                    <div id="photo4-preview" class="photo-preview"></div>
+                </div>
+                
+                <button class="save-btn" onclick="saveDiary(4)">💾 일지 저장</button>
+            </div>
+            
+            <!-- Day 5 -->
+            <div id="day5" class="diary-form">
+                <div class="schedule-info">
+                    <h4>📋 8월 21일 주요 일정</h4>
+                    <ul>
+                        <li>치앙라이 이동 (골든 트라이앵글 12시 도착)</li>
+                        <li>백색사원 방문</li>
+                        <li>매파루앙대학(왕비대학) 견학</li>
+                        <li>라오스 전망대 (선택)</li>
+                    </ul>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📅 날짜</label>
+                        <input type="date" value="2025-08-21" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>📍 장소</label>
+                        <input type="text" value="치앙라이, 골든 트라이앵글" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>🌤️ 날씨</label>
+                        <select>
+                            <option value="">날씨 선택</option>
+                            <option value="맑음">☀️ 맑음</option>
+                            <option value="구름많음">⛅ 구름많음</option>
+                            <option value="흐림">☁️ 흐림</option>
+                            <option value="비">🌧️ 비</option>
+                            <option value="소나기">⛈️ 소나기</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>🏛️ 오늘의 사역 내용</label>
+                    <textarea placeholder="- 치앙라이 이동 중 팀원들과의 교제&#10;- 백색사원에서의 묵상과 기도&#10;- 매파루앙대학 견학&#10;- 골든 트라이앵글에서의 역사 공부&#10;- 라오스 전망대에서의 선교 비전"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>💝 은혜 나눔 / 느낀 점</label>
+                    <textarea placeholder="- 태국 북부 지역의 아름다운 자연&#10;- 백색사원에서 느낀 영적 감동&#10;- 골든 트라이앵글의 역사와 현재&#10;- 국경 지역 선교의 중요성 깨달음"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>🙏 감사 기도</label>
+                    <textarea placeholder="- 치앙라이의 아름다운 자연에 감사&#10;- 백색사원에서의 영적 체험에 감사&#10;- 골든 트라이앵글에서의 역사 공부에 감사&#10;- 안전한 여행과 건강에 감사"></textarea>
+                </div>
+                
+                <div class="photo-section">
+                    <input type="file" id="photo5" accept="image/*,video/*" multiple capture="environment" onchange="handleFileChange('photo5')">
+                    <button class="photo-upload-btn" onclick="handlePhotoUpload('photo5')" type="button">
+                        📷 사진 업로드
+                    </button>
+                    <div id="photo5-preview" class="photo-preview"></div>
+                </div>
+                
+                <button class="save-btn" onclick="saveDiary(5)">💾 일지 저장</button>
+            </div>
+            
+            <!-- Day 6 -->
+            <div id="day6" class="diary-form">
+                <div class="schedule-info">
+                    <h4>📋 8월 22일 주요 일정</h4>
+                    <ul>
+                        <li>치앙마이 이동 (14:30-15:00)</li>
+                        <li>싱아파크 쇼핑</li>
+                        <li>와로루 시장 견학</li>
+                        <li>나이트 바자르</li>
+                        <li>치앙마이 출발 (23:55-06:55+1)</li>
+                    </ul>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📅 날짜</label>
+                        <input type="date" value="2025-08-22" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>📍 장소</label>
+                        <input type="text" value="치앙마이, 싱아파크, 와로루 시장" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>🌤️ 날씨</label>
+                        <select>
+                            <option value="">날씨 선택</option>
+                            <option value="맑음">☀️ 맑음</option>
+                            <option value="구름많음">⛅ 구름많음</option>
+                            <option value="흐림">☁️ 흐림</option>
+                            <option value="비">🌧️ 비</option>
+                            <option value="소나기">⛈️ 소나기</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>🛍️ 오늘의 사역 내용</label>
+                    <textarea placeholder="- 치앙마이 시내 문화 체험&#10;- 와로루 시장에서 현지 문화 이해&#10;- 나이트 바자르 견학&#10;- 팀원들과의 마지막 교제 시간&#10;- 선교 여행 마무리와 정리"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>💝 은혜 나눔 / 느낀 점</label>
+                    <textarea placeholder="- 일주일 선교 여행의 총정리&#10;- 팀원들과 나눈 소중한 시간들&#10;- 태국 문화에 대한 이해와 감사&#10;- 하나님이 주신 은혜들의 회고"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>🙏 감사 기도</label>
+                    <textarea placeholder="- 일주일 선교 여행의 모든 순간에 감사&#10;- 팀원들과의 소중한 교제에 감사&#10;- 태국 문화 체험에 감사&#10;- 안전한 귀국 준비에 감사"></textarea>
+                </div>
+                
+                <div class="photo-section">
+                    <input type="file" id="photo6" accept="image/*,video/*" multiple capture="environment" onchange="handleFileChange('photo6')">
+                    <button class="photo-upload-btn" onclick="handlePhotoUpload('photo6')" type="button">
+                        📷 사진 업로드
+                    </button>
+                    <div id="photo6-preview" class="photo-preview"></div>
+                </div>
+                
+                <button class="save-btn" onclick="saveDiary(6)">💾 일지 저장</button>
+            </div>
+            
+            <!-- Day 7 -->
+            <div id="day7" class="diary-form">
+                <div class="schedule-info">
+                    <h4>📋 8월 23일 주요 일정</h4>
+                    <ul>
+                        <li>한국 도착 (06:55)</li>
+                        <li>공항에서 해산</li>
+                        <li>선교 여행 마무리</li>
+                    </ul>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📅 날짜</label>
+                        <input type="date" value="2025-08-23" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>📍 장소</label>
+                        <input type="text" value="한국 (인천공항)" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>🌤️ 날씨</label>
+                        <select>
+                            <option value="">날씨 선택</option>
+                            <option value="맑음">☀️ 맑음</option>
+                            <option value="구름많음">⛅ 구름많음</option>
+                            <option value="흐림">☁️ 흐림</option>
+                            <option value="비">🌧️ 비</option>
+                            <option value="소나기">⛈️ 소나기</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>🏠 오늘의 사역 내용</label>
+                    <textarea placeholder="- 한국 도착 후 소감&#10;- 공항에서 팀원들과 마지막 인사&#10;- 일주일 선교 여행의 전체 회고&#10;- 앞으로의 선교 다짐"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>💝 은혜 나눔 / 느낀 점</label>
+                    <textarea placeholder="- 태국 선교를 통해 받은 가장 큰 은혜&#10;- 개인적인 신앙 성장과 변화&#10;- 팀원들과 함께한 소중한 경험&#10;- 앞으로 실천하고 싶은 선교적 삶"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>🙏 감사 기도</label>
+                    <textarea placeholder="- 태국 선교 전체 여정에 대한 깊은 감사&#10;- 21명 팀원들과 함께한 은혜에 감사&#10;- 선교지에서 만난 모든 분들에 감사&#10;- 앞으로의 선교적 삶을 위한 감사"></textarea>
+                </div>
+                
+                <div class="photo-section">
+                    <input type="file" id="photo7" accept="image/*,video/*" multiple capture="environment" onchange="handleFileChange('photo7')">
+                    <button class="photo-upload-btn" onclick="handlePhotoUpload('photo7')" type="button">
+                        📷 사진 업로드
+                    </button>
+                    <div id="photo7-preview" class="photo-preview"></div>
+                </div>
+                
+                <button class="save-btn" onclick="saveDiary(7)">💾 일지 저장</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 사진 업로드 처리 함수 - iOS Safari 최적화
+        function handlePhotoUpload(inputId) {
+            console.log('사진 업로드 클릭:', inputId);
+            const input = document.getElementById(inputId);
+            if (input) {
+                // iOS에서 강제로 포커스를 줘서 파일 선택창 열기
+                input.focus();
+                input.click();
+                console.log('파일 입력 클릭됨');
+            } else {
+                console.log('입력 요소를 찾을 수 없음:', inputId);
+            }
+        }
+        
+        // 파일 선택 시 미리보기 표시 - 개선된 버전
+        function handleFileChange(inputId) {
+            console.log('파일 변경 감지:', inputId);
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(inputId + '-preview');
+            
+            if (input && input.files && preview) {
+                console.log('선택된 파일 수:', input.files.length);
+                preview.innerHTML = '';
+                
+                for (let i = 0; i < Math.min(input.files.length, 6); i++) {
+                    const file = input.files[i];
+                    console.log('파일 처리 중:', file.name, file.type);
+                    
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(e) {
+                            img.src = e.target.result;
+                            preview.appendChild(img);
+                        };
+                        
+                        reader.readAsDataURL(file);
+                    }
+                }
+                
+                if (input.files.length > 0) {
+                    setTimeout(() => {
+                        alert(`✅ ${input.files.length}개의 파일이 선택되었습니다!`);
+                    }, 100);
+                }
+            } else {
+                console.log('파일 처리 실패 - input:', !!input, 'files:', !!input?.files, 'preview:', !!preview);
+            }
+        }
+        
+        function showDay(dayNum) {
+            console.log('날짜 변경:', dayNum);
+            
+            // Hide all diary forms
+            const allForms = document.querySelectorAll('.diary-form');
+            allForms.forEach(form => {
+                form.classList.remove('active');
+                form.style.display = 'none';
+            });
+            
+            // Remove active class from all buttons
+            const allButtons = document.querySelectorAll('.day-btn');
+            allButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected day
+            const targetForm = document.getElementById('day' + dayNum);
+            if (targetForm) {
+                targetForm.classList.add('active');
+                targetForm.style.display = 'block';
+                console.log('폼 표시됨:', 'day' + dayNum);
+            } else {
+                console.log('폼을 찾을 수 없음:', 'day' + dayNum);
+            }
+            
+            // Add active class to clicked button
+            if (allButtons[dayNum - 1]) {
+                allButtons[dayNum - 1].classList.add('active');
+                console.log('버튼 활성화됨:', dayNum);
+            }
+        }
+        
+        function saveDiary(dayNum) {
+            // Get form data
+            const form = document.getElementById('day' + dayNum);
+            
+            // Collect all form inputs
+            const diaryData = {
+                date: form.querySelector('input[type="date"]').value,
+                location: '',
+                weather: '',
+                activities: '',
+                reflections: '',
+                prayers: '',
+                timestamp: new Date().toISOString()
+            };
+            
+            // 각 입력값 수집
+            const textInputs = form.querySelectorAll('input[type="text"]');
+            if (textInputs.length > 0) diaryData.location = textInputs[0].value;
+            
+            const selects = form.querySelectorAll('select');
+            if (selects.length > 0) diaryData.weather = selects[0].value;
+            
+            const textareas = form.querySelectorAll('textarea');
+            if (textareas.length >= 3) {
+                diaryData.activities = textareas[0].value;
+                diaryData.reflections = textareas[1].value;
+                diaryData.prayers = textareas[2].value;
+            }
+            
+            // 사진 파일 처리
+            const fileInput = form.querySelector('input[type="file"]');
+            if (fileInput && fileInput.files.length > 0) {
+                diaryData.photoCount = fileInput.files.length;
+            }
+            
+            // 데이터 저장 시도
+            let saveSuccess = false;
+            try {
+                const dataStr = JSON.stringify(diaryData);
+                localStorage.setItem('missionDiary_day' + dayNum, dataStr);
+                saveSuccess = true;
+            } catch (e) {
+                console.log('localStorage 저장 실패:', e);
+                // 메모리에만 저장
+                window.missionDiary = window.missionDiary || {};
+                window.missionDiary['day' + dayNum] = diaryData;
+                saveSuccess = true;
+            }
+            
+            // 성공 메시지 표시
+            if (saveSuccess) {
+                // 더 명확한 성공 메시지
+                const message = `✅ ${dayNum}일차 선교 일지 저장 완료!\n\n저장된 내용:\n- 장소: ${diaryData.location || '미입력'}\n- 날씨: ${diaryData.weather || '미선택'}\n- 사역내용: ${diaryData.activities ? '작성됨' : '미작성'}\n- 은혜나눔: ${diaryData.reflections ? '작성됨' : '미작성'}\n- 감사기도: ${diaryData.prayers ? '작성됨' : '미작성'}`;
+                alert(message);
+                
+                // 파일 다운로드 (데스크톱에서만)
+                if (!navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+                    try {
+                        const blob = new Blob([JSON.stringify(diaryData, null, 2)], {
+                            type: 'application/json'
+                        });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `선교일지_${dayNum}일차.json`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    } catch (e) {
+                        console.log('파일 다운로드 실패:', e);
+                    }
+                }
+            } else {
+                alert('❌ 저장에 실패했습니다. 다시 시도해주세요.');
+            }
+        }
+        
+        // Load saved data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            for (let i = 1; i <= 7; i++) {
+                try {
+                    const savedData = localStorage.getItem('missionDiary_day' + i) || 
+                                    (window.missionDiary && window.missionDiary['day' + i] ? 
+                                     JSON.stringify(window.missionDiary['day' + i]) : null);
+                    
+                    if (savedData) {
+                        const data = JSON.parse(savedData);
+                        const form = document.getElementById('day' + i);
+                        
+                        // Fill form with saved data
+                        const textInputs = form.querySelectorAll('input[type="text"]');
+                        if (data.location && textInputs.length > 0) textInputs[0].value = data.location;
+                        
+                        const selects = form.querySelectorAll('select');
+                        if (data.weather && selects.length > 0) selects[0].value = data.weather;
+                        
+                        const textareas = form.querySelectorAll('textarea');
+                        if (textareas.length >= 3) {
+                            if (data.activities) textareas[0].value = data.activities;
+                            if (data.reflections) textareas[1].value = data.reflections;
+                            if (data.prayers) textareas[2].value = data.prayers;
+                        }
+                    }
+                } catch (e) {
+                    console.log('Could not load saved data for day', i);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
