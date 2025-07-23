@@ -290,18 +290,6 @@
             margin-top: 20px;
         }
         
-        @media (max-width: 768px) {
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .share-btn {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-        }
-        
         .save-btn {
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             color: white;
@@ -486,10 +474,19 @@
                 height: 80px;
             }
             
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .share-btn {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
             .save-btn {
                 padding: 15px 25px;
                 font-size: 16px;
-                margin-top: 15px;
             }
         }
         
@@ -525,6 +522,11 @@
             
             .photo-upload-btn {
                 padding: 10px 20px;
+                font-size: 15px;
+            }
+            
+            .share-btn {
+                padding: 12px 20px;
                 font-size: 15px;
             }
             
@@ -692,7 +694,10 @@
                     <div id="photo2-preview" class="photo-preview"></div>
                 </div>
                 
-                <button class="save-btn" onclick="saveDiary(2)">💾 일지 저장</button>
+                <div class="button-group">
+                    <button class="share-btn" onclick="shareDiary(2)">📤 일지 공유하기</button>
+                    <button class="save-btn" onclick="saveDiary(2)">💾 일지 저장</button>
+                </div>
             </div>
             
             <!-- Day 3 -->
@@ -751,8 +756,11 @@
                     </button>
                     <div id="photo3-preview" class="photo-preview"></div>
                 </div>
-                
-                <button class="save-btn" onclick="saveDiary(3)">💾 일지 저장</button>
+
+                <div class="button-group">
+                    <button class="share-btn" onclick="shareDiary(3)">📤 일지 공유하기</button>
+                    <button class="save-btn" onclick="saveDiary(3)">💾 일지 저장</button>
+                </div>
             </div>
             
             <!-- Day 4 -->
@@ -811,8 +819,11 @@
                     </button>
                     <div id="photo4-preview" class="photo-preview"></div>
                 </div>
-                
-                <button class="save-btn" onclick="saveDiary(4)">💾 일지 저장</button>
+
+                <div class="button-group">
+                    <button class="share-btn" onclick="shareDiary(4)">📤 일지 공유하기</button>
+                    <button class="save-btn" onclick="saveDiary(4)">💾 일지 저장</button>
+                </div>
             </div>
             
             <!-- Day 5 -->
@@ -871,8 +882,11 @@
                     </button>
                     <div id="photo5-preview" class="photo-preview"></div>
                 </div>
-                
-                <button class="save-btn" onclick="saveDiary(5)">💾 일지 저장</button>
+
+                <div class="button-group">
+                    <button class="share-btn" onclick="shareDiary(5)">📤 일지 공유하기</button>
+                    <button class="save-btn" onclick="saveDiary(5)">💾 일지 저장</button>
+                </div>
             </div>
             
             <!-- Day 6 -->
@@ -932,8 +946,11 @@
                     </button>
                     <div id="photo6-preview" class="photo-preview"></div>
                 </div>
-                
-                <button class="save-btn" onclick="saveDiary(6)">💾 일지 저장</button>
+
+                <div class="button-group">
+                    <button class="share-btn" onclick="shareDiary(6)">📤 일지 공유하기</button>
+                    <button class="save-btn" onclick="saveDiary(6)">💾 일지 저장</button>
+                </div>
             </div>
             
             <!-- Day 7 -->
@@ -992,7 +1009,10 @@
                     <div id="photo7-preview" class="photo-preview"></div>
                 </div>
                 
-                <button class="save-btn" onclick="saveDiary(7)">💾 일지 저장</button>
+                <div class="button-group">
+                    <button class="share-btn" onclick="shareDiary(7)">📤 일지 공유하기</button>
+                    <button class="save-btn" onclick="saveDiary(7)">💾 일지 저장</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1023,16 +1043,15 @@
             const days = ['일', '월', '화', '수', '목', '금', '토'];
             const dayOfWeek = days[dateObj.getDay()];
             
-            // 공유용 텍스트 생성 (예쁘게 포맷팅)
-            let shareText = `🙏 태국 단기선교 일지 📿\n`;
-            shareText += `━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            // 공유용 텍스트 생성 (깔끔하게 포맷팅)
+            let shareText = `🙏 태국 단기선교 일지\n\n`;
             shareText += `📅 날짜: ${koreanDate} (${dayOfWeek}요일)\n`;
             shareText += `📍 장소: ${location}\n`;
             shareText += `🌤️ 날씨: ${weather}\n`;
             if (photoCount > 0) {
                 shareText += `📷 사진: ${photoCount}장 첨부\n`;
             }
-            shareText += `\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            shareText += `\n`;
             
             // 사역 내용
             shareText += `⛪ 오늘의 사역 내용\n`;
@@ -1040,11 +1059,11 @@
                 const activityLines = activities.split('\n').filter(line => line.trim());
                 activityLines.forEach(line => {
                     if (line.trim()) {
-                        shareText += `  🔹 ${line.trim().replace(/^-\s*/, '')}\n`;
+                        shareText += `- ${line.trim().replace(/^-\s*/, '')}\n`;
                     }
                 });
             } else {
-                shareText += `  (작성된 내용이 없습니다)\n`;
+                shareText += `- (작성된 내용이 없습니다)\n`;
             }
             shareText += `\n`;
             
@@ -1054,11 +1073,11 @@
                 const reflectionLines = reflections.split('\n').filter(line => line.trim());
                 reflectionLines.forEach(line => {
                     if (line.trim()) {
-                        shareText += `  💖 ${line.trim().replace(/^-\s*/, '')}\n`;
+                        shareText += `- ${line.trim().replace(/^-\s*/, '')}\n`;
                     }
                 });
             } else {
-                shareText += `  (작성된 내용이 없습니다)\n`;
+                shareText += `- (작성된 내용이 없습니다)\n`;
             }
             shareText += `\n`;
             
@@ -1068,16 +1087,14 @@
                 const prayerLines = prayers.split('\n').filter(line => line.trim());
                 prayerLines.forEach(line => {
                     if (line.trim()) {
-                        shareText += `  🤲 ${line.trim().replace(/^-\s*/, '')}\n`;
+                        shareText += `- ${line.trim().replace(/^-\s*/, '')}\n`;
                     }
                 });
             } else {
-                shareText += `  (작성된 내용이 없습니다)\n`;
+                shareText += `- (작성된 내용이 없습니다)\n`;
             }
-            
-            shareText += `\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-            shareText += `🇹🇭 2025 태국 단기선교팀 | ${dayNum}일차\n`;
-            shareText += `"하나님의 사랑을 전하는 귀한 발걸음" 🌟`;
+            shareText += `\n`;
+            shareText += `2025 태국 단기선교팀 | ${dayNum}일차`;
             
             // 클립보드에 복사
             if (navigator.clipboard && navigator.clipboard.writeText) {
