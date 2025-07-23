@@ -261,6 +261,47 @@
             border: 2px solid #4ecdc4;
         }
         
+        .share-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 10px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-appearance: none;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .share-btn {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+        
         .save-btn {
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             color: white;
@@ -270,9 +311,8 @@
             cursor: pointer;
             font-size: 18px;
             font-weight: 600;
-            margin-top: 20px;
             transition: all 0.3s ease;
-            width: 100%;
+            flex: 1;
             -webkit-tap-highlight-color: transparent;
             -webkit-appearance: none;
         }
@@ -588,7 +628,10 @@
                     <div id="photo1-preview" class="photo-preview"></div>
                 </div>
                 
-                <button class="save-btn" onclick="saveDiary(1)">💾 일지 저장</button>
+                <div class="button-group">
+                    <button class="share-btn" onclick="shareDiary(1)">📤 일지 공유하기</button>
+                    <button class="save-btn" onclick="saveDiary(1)">💾 일지 저장</button>
+                </div>
             </div>
             
             <!-- Day 2 -->
@@ -955,6 +998,146 @@
     </div>
     
     <script>
+        // 일지 공유 기능 - 예쁘게 포맷팅
+        function shareDiary(dayNum) {
+            const form = document.getElementById('day' + dayNum);
+            
+            // 폼 데이터 수집
+            const date = form.querySelector('input[type="date"]').value;
+            const location = form.querySelector('input[type="text"]').value || '미입력';
+            const weather = form.querySelector('select').value || '미선택';
+            
+            const textareas = form.querySelectorAll('textarea');
+            const activities = textareas[0]?.value || '미작성';
+            const reflections = textareas[1]?.value || '미작성';
+            const prayers = textareas[2]?.value || '미작성';
+            
+            const fileInput = form.querySelector('input[type="file"]');
+            const photoCount = fileInput?.files.length || 0;
+            
+            // 날짜를 한국어 형식으로 변환
+            const dateObj = new Date(date);
+            const koreanDate = `${dateObj.getFullYear()}년 ${dateObj.getMonth() + 1}월 ${dateObj.getDate()}일`;
+            
+            // 요일 계산
+            const days = ['일', '월', '화', '수', '목', '금', '토'];
+            const dayOfWeek = days[dateObj.getDay()];
+            
+            // 공유용 텍스트 생성 (예쁘게 포맷팅)
+            let shareText = `🙏 태국 단기선교 일지 📿\n`;
+            shareText += `━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            shareText += `📅 날짜: ${koreanDate} (${dayOfWeek}요일)\n`;
+            shareText += `📍 장소: ${location}\n`;
+            shareText += `🌤️ 날씨: ${weather}\n`;
+            if (photoCount > 0) {
+                shareText += `📷 사진: ${photoCount}장 첨부\n`;
+            }
+            shareText += `\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            
+            // 사역 내용
+            shareText += `⛪ 오늘의 사역 내용\n`;
+            if (activities !== '미작성') {
+                const activityLines = activities.split('\n').filter(line => line.trim());
+                activityLines.forEach(line => {
+                    if (line.trim()) {
+                        shareText += `  🔹 ${line.trim().replace(/^-\s*/, '')}\n`;
+                    }
+                });
+            } else {
+                shareText += `  (작성된 내용이 없습니다)\n`;
+            }
+            shareText += `\n`;
+            
+            // 은혜 나눔
+            shareText += `💝 은혜 나눔 / 느낀 점\n`;
+            if (reflections !== '미작성') {
+                const reflectionLines = reflections.split('\n').filter(line => line.trim());
+                reflectionLines.forEach(line => {
+                    if (line.trim()) {
+                        shareText += `  💖 ${line.trim().replace(/^-\s*/, '')}\n`;
+                    }
+                });
+            } else {
+                shareText += `  (작성된 내용이 없습니다)\n`;
+            }
+            shareText += `\n`;
+            
+            // 감사 기도
+            shareText += `🙏 감사 기도\n`;
+            if (prayers !== '미작성') {
+                const prayerLines = prayers.split('\n').filter(line => line.trim());
+                prayerLines.forEach(line => {
+                    if (line.trim()) {
+                        shareText += `  🤲 ${line.trim().replace(/^-\s*/, '')}\n`;
+                    }
+                });
+            } else {
+                shareText += `  (작성된 내용이 없습니다)\n`;
+            }
+            
+            shareText += `\n━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            shareText += `🇹🇭 2025 태국 단기선교팀 | ${dayNum}일차\n`;
+            shareText += `"하나님의 사랑을 전하는 귀한 발걸음" 🌟`;
+            
+            // 클립보드에 복사
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert(`✅ ${dayNum}일차 선교일지가 클립보드에 복사되었습니다!\n\n📱 카카오톡이나 다른 앱에서 붙여넣기(Ctrl+V)하여 공유하세요.`);
+                }).catch(() => {
+                    // 클립보드 복사 실패 시 대체 방법
+                    showShareModal(shareText, dayNum);
+                });
+            } else {
+                // 클립보드 API를 지원하지 않는 경우
+                showShareModal(shareText, dayNum);
+            }
+        }
+        
+        // 공유 모달 표시 (클립보드 복사 실패 시)
+        function showShareModal(shareText, dayNum) {
+            // 간단한 알림창으로 텍스트 표시
+            const copyText = `${dayNum}일차 선교일지가 준비되었습니다!\n\n아래 내용을 복사해서 공유하세요:\n\n${shareText}`;
+            
+            // 모바일에서는 간단한 alert 사용
+            if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+                alert(`✅ ${dayNum}일차 선교일지\n\n내용이 준비되었습니다. 다음 단계:\n1. 확인 버튼 클릭\n2. 내용을 길게 눌러 복사\n3. 카톡에 붙여넣기`);
+                
+                // 텍스트를 선택 가능한 형태로 표시하기 위해 임시 textarea 생성
+                const tempTextarea = document.createElement('textarea');
+                tempTextarea.value = shareText;
+                tempTextarea.style.position = 'fixed';
+                tempTextarea.style.left = '50%';
+                tempTextarea.style.top = '50%';
+                tempTextarea.style.transform = 'translate(-50%, -50%)';
+                tempTextarea.style.width = '90%';
+                tempTextarea.style.height = '70%';
+                tempTextarea.style.zIndex = '9999';
+                tempTextarea.style.backgroundColor = 'white';
+                tempTextarea.style.border = '2px solid #4ecdc4';
+                tempTextarea.style.borderRadius = '10px';
+                tempTextarea.style.padding = '20px';
+                tempTextarea.style.fontSize = '14px';
+                tempTextarea.readOnly = true;
+                
+                document.body.appendChild(tempTextarea);
+                tempTextarea.select();
+                
+                // 5초 후 자동으로 제거하거나 클릭 시 제거
+                setTimeout(() => {
+                    if (document.body.contains(tempTextarea)) {
+                        document.body.removeChild(tempTextarea);
+                    }
+                }, 10000);
+                
+                tempTextarea.onclick = () => {
+                    document.body.removeChild(tempTextarea);
+                };
+            } else {
+                // 데스크톱에서는 상세한 안내
+                alert(copyText);
+            }
+        }
+        
         // 사진 업로드 처리 함수 - iOS Safari 최적화
         function handlePhotoUpload(inputId) {
             console.log('사진 업로드 클릭:', inputId);
